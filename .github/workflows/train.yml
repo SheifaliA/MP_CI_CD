@@ -26,15 +26,21 @@ jobs:
             echo "No dataset file found. Exiting."
             exit 1
         fi
-        DATASET_ENV=$latest_file
-    - name: Update config.yml
-      run: |
+        cat vehicleinsurance_model/config.yml
         if grep -q "training_data_file:" vehicleinsurance_model/config.yml; then
             sed -i "s|training_data_file: .*|training_data_file: \"$latest_file\"|" vehicleinsurance_model/config.yml
         else
-            echo "training_data_file: \"$latest_file\"" >> vehicleinsurance_model/config.yml
+            echo "training_data_file:$latest_file" >> vehicleinsurance_model/config.yml
         fi
         grep "training_data_file" vehicleinsurance_model/config.yml
+    # - name: Update config.yml
+    #   run: |
+    #     if grep -q "training_data_file:" vehicleinsurance_model/config.yml; then
+    #         sed -i "s|training_data_file: .*|training_data_file: \"$latest_file\"|" vehicleinsurance_model/config.yml
+    #     else
+    #         echo "training_data_file: \"$latest_file\"" >> vehicleinsurance_model/config.yml
+    #     fi
+    #     grep "training_data_file" vehicleinsurance_model/config.yml
     - name: Commit Updated Config.YML
       run: |
         git config --global user.name "github-actions"
