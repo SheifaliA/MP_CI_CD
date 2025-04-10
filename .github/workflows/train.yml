@@ -27,20 +27,22 @@ jobs:
     - name: Update config.yml
       run: |
         sed -i "s|training_data_file: .*|training_data_file: $LATEST_FILE|" vehicleinsurance_model/config.yml
-    - name: Commit updated config.yml
+    # - name: Commit updated config.yml
       # run: |
       #   git config --global user.name "github-actions"
       #   git config --global user.email "actions@github.com"
       #   git add vehicleinsurance_model/config.yml
       #   git commit -m "Updated dataset path in config.yml"
       #   git push origin main
+    - name: Commit Updated Config.YML
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "actions@github.com"
-        git remote set-url origin https://x-access-token:${{ secrets.REPO_TOKEN }}@github.com/SheifaliA/MP_CI_CD.git
         git add vehicleinsurance_model/config.yml
-        git commit -m "Updated dataset path in config.yml"
-        git push origin main    
+        git commit -m "Updated config.yml after training"
+        git push origin main
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  
     - name: Train and save pipeline
       run: python vehicleinsurance_model/train_pipeline.py
     - uses: actions/upload-artifact@v4
