@@ -109,15 +109,16 @@ jobs:
         path: vehicleinsurance_model/trained_models
     - name: Install dependencies
       run: pip install --upgrade build
-    - name: Build package
-      run: python -m build
-    - uses: actions/upload-artifact@v4
+    - name: Build the package
+      run: |
+        python -m build
+        mv dist/*.whl vehicleinsurance_api/
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
       with:
         name: my-build-package
         path: vehicleinsurance_api/*.whl
-        retention-days: 1
-    # - name: Move .whl file
-    #   run: mv dist/*.whl vehicleinsurance_api/
+        retention-days: 2
     - name: List files to verify move
       run: ls -l vehicleinsurance_api/
   push-image:
@@ -126,10 +127,13 @@ jobs:
     steps:
     - name: Repo Checkout
       uses: actions/checkout@v2
-    - uses: actions/download-artifact@v4
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
       with:
         name: my-build-package
         path: vehicleinsurance_api/
+    - name: Verify Artifact Presence
+      run: ls -R vehicleinsurance_api/     
     - name: Login to Docker hub
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
