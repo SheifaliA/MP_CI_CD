@@ -1,13 +1,17 @@
 name: Deploy Model to AWS EC2
 on:
   push:
+    branches:
+      - main
     tags:
       - 'latest' 
+  workflow_dispatch:     
 jobs:
   deploy:
     runs-on: self-hosted
-
     steps:
+      - name: Check Self-Hosted Runner Status
+        run: sudo systemctl status actions-runner || true
       - name: Pull Docker Image
         env: 
           DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
