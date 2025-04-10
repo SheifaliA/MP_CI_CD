@@ -61,3 +61,4 @@ CRITERION: "entropy"
 training_data_file: "data.csv"
 training_data_file: "data.csv"
 training_data_file: "data.csv"
+training_data_file: data2.csv
