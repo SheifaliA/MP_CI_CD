@@ -7,14 +7,14 @@ sys.path.append(str(root))
 import pytest
 from sklearn.model_selection import train_test_split
 import yaml
-from vehicleinsurance_model.config.core import config
+from vehicleinsurance_model.config.core import create_and_validate_config
 from vehicleinsurance_model.processing.data_manager import load_dataset
-import importlib
+# import importlib
     
 @pytest.fixture
 def sample_input_data():
     # config = config_dataset_path() 
-    importlib.reload(config)
+    config = create_and_validate_config()
     data = load_dataset(file_name = config.app_config_.training_data_file)
     # divide train and test
     X_train, X_test, y_train, y_test = train_test_split(
