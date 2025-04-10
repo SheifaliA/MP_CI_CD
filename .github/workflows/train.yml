@@ -21,7 +21,9 @@ jobs:
     - name: Identify latest dataset
       run: |
         latest_file=$(ls -t vehicleinsurance_model/datasets | head -n 1)
-        echo "LATEST_FILE=$latest_file" >> $DATASET_ENV
+        echo "Latest file: $latest_file"
+        DATASET_ENV=$latest_file
+        # echo "LATEST_FILE=$latest_file" >> $DATASET_ENV
     - name: Update config.yml
       run: |
         sed -i "s|training_data_file: .*|training_data_file: $LATEST_FILE|" vehicleinsurance_model/config.yml
