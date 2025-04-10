@@ -11,15 +11,15 @@ from vehicleinsurance_model.config.core import config
 from vehicleinsurance_model.processing.data_manager import load_dataset
 
 @pytest.fixture
-def config():
+def config_dataset_path():
     """Load fresh config before each test"""
     with open("vehicleinsurance_model/config.yml", "r") as file:
         return yaml.safe_load(file)
-
+    
 @pytest.fixture
 def sample_input_data():
+    config = config_dataset_path() 
     data = load_dataset(file_name = config.app_config_.training_data_file)
-
     # divide train and test
     X_train, X_test, y_train, y_test = train_test_split(
         
