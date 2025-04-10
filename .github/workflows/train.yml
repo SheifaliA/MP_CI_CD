@@ -29,7 +29,7 @@ jobs:
         cat vehicleinsurance_model/config.yml
         if grep -q "^training_data_file:" vehicleinsurance_model/config.yml; then
             echo "Inside if - Updating training_data_file"
-            sed '/^training_data_file:/d' vehicleinsurance_model/config.yml
+            grep -v "^training_data_file:" vehicleinsurance_model/config.yml > temp_config.yml && mv temp_config.yml vehicleinsurance_model/config.yml
             echo "training_data_file: $latest_file" >> vehicleinsurance_model/config.yml
             # sed -i "/^training_data_file:/c\training_data_file: \"$latest_file\"" vehicleinsurance_model/config.yml
             grep "training_data_file" vehicleinsurance_model/config.yml
