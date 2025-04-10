@@ -82,8 +82,10 @@ jobs:
         pip install pyyaml 
     - name: Test with pytest
       run: |
-        # rm -rf vehicleinsurance_model/__pycache__
+        cat vehicleinsurance_model/config.yml | grep "training_data_file"
+        rm -rf vehicleinsurance_model/__pycache__
         rm -rf .pytest_cache
+        find . -name "*.pyc" -delete
         pytest
   build:
     needs: [train, test]
