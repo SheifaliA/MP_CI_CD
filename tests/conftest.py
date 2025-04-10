@@ -22,6 +22,7 @@ CONFIG_FILE_PATH = Path("vehicleinsurance_model/config.yml")
 def reload_config():    
     # Remove Python cache to prevent outdated config usage    
     shutil.rmtree("vehicleinsurance_model/__pycache__", ignore_errors=True)
+    shutil.rmtree(".pytest_cache", ignore_errors=True)
     # Validate YAML formatting before tests
     try:
         with open(CONFIG_FILE_PATH, "r") as file:

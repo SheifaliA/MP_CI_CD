@@ -83,8 +83,8 @@ jobs:
     - name: Test with pytest
       run: |
         # rm -rf vehicleinsurance_model/__pycache__
+        rm -rf .pytest_cache
         pytest
-
   build:
     needs: [train, test]
     runs-on: ubuntu-latest
