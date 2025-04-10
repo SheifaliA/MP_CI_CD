@@ -30,7 +30,7 @@ jobs:
         if grep -q "/training_data_file:/" vehicleinsurance_model/config.yml; then
             echo "inside if"
         # Ensure previous instances of `training_data_file:` are removed before adding new
-            sed -i '/training_data_file:/c\training_data_file: "$latest_file"' vehicleinsurance_model/config.yml
+            sed -i '/training_data_file:/c\training_data_file: " $latest_file"' vehicleinsurance_model/config.yml
             # sed -i '/^training_data_file:/d' vehicleinsurance_model/config.yml
             # echo "training_data_file: $latest_file" >> vehicleinsurance_model/config.yml
             # awk '/training_data_file/ {print}' vehicleinsurance_model/config.yml
