@@ -2,7 +2,7 @@
 package_name: vehicleinsurance_model
 
 # Data Files
-training_data_file: ""
+training_data_file: "data3.csv"
 
 # Variables
 # The variable we are attempting to predict (cnt)
