@@ -2,7 +2,7 @@ name: CI Pipeline
 on:
   push:
     paths:
-      - 'vehicleinsurance_model/dataset/**'
+      - 'vehicleinsurance_model/datasets/**'
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
       run: pip install -r requirements/requirements.txt
     - name: Identify latest dataset
       run: |
-        latest_file=$(ls -t vehicleinsurance_model/dataset | head -n 1)
+        latest_file=$(ls -t vehicleinsurance_model/datasets | head -n 1)
         echo "LATEST_FILE=$latest_file" >> $GITHUB_ENV
     - name: Update config.yml
       run: |
