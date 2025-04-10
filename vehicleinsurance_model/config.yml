@@ -58,6 +58,6 @@ MAX_DEPTH: 10
 MIN_SAMPLES_SPLIT: 7
 MIN_SAMPLES_LEAF: 6
 CRITERION: "entropy"
-training_data_file: data9.csv
-training_data_file:data10.csv
-training_data_file:__init__.py
+training_data_file: "data.csv"
+training_data_file: "data.csv"
+training_data_file: "data.csv"
