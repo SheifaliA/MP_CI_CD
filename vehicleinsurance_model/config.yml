@@ -2,7 +2,6 @@
 package_name: vehicleinsurance_model
 
 # Data Files
-training_data_file: data8.csv
 
 # Variables
 # The variable we are attempting to predict (cnt)
@@ -59,3 +58,4 @@ MAX_DEPTH: 10
 MIN_SAMPLES_SPLIT: 7
 MIN_SAMPLES_LEAF: 6
 CRITERION: "entropy"
+training_data_file: data9.csv
