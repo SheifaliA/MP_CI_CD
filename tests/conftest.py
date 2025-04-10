@@ -11,7 +11,7 @@ from vehicleinsurance_model.config.core import config
 from vehicleinsurance_model.processing.data_manager import load_dataset
 
 @pytest.fixture
-def config():
+def config_dataset_path():
     """Load fresh config before each test"""
     with open("vehicleinsurance_model/config.yml", "r") as file:
         return yaml.safe_load(file)
