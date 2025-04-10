@@ -27,8 +27,8 @@ jobs:
             exit 1
         fi
         cat vehicleinsurance_model/config.yml
-        if grep -q "training_data_file:" vehicleinsurance_model/config.yml; then
-            sed -i "s|training_data_file: .*|training_data_file: \"$latest_file\"|" vehicleinsurance_model/config.yml
+        if grep -q "^training_data_file:" vehicleinsurance_model/config.yml; then
+            sed -i "s|^training_data_file: .*|training_data_file: $latest_file|" vehicleinsurance_model/config.yml
         else
             echo "training_data_file:$latest_file" >> vehicleinsurance_model/config.yml
         fi
