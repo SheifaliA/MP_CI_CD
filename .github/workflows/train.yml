@@ -28,7 +28,11 @@ jobs:
         fi
         cat vehicleinsurance_model/config.yml
         if grep -q "^training_data_file:" vehicleinsurance_model/config.yml; then
-            sed -i "s|^training_data_file: .*|training_data_file: $latest_file|" vehicleinsurance_model/config.yml
+        # Ensure previous instances of `training_data_file:` are removed before adding new
+            sed -i '/^training_data_file:/d' vehicleinsurance_model/config.yml
+            echo "training_data_file: $latest_file" >> vehicleinsurance_model/config.yml
+            awk '/training_data_file/ {print}' vehicleinsurance_model/config.yml
+            # sed -i "s|^training_data_file: .*|training_data_file: $latest_file|" vehicleinsurance_model/config.yml
         else
             echo "training_data_file:$latest_file" >> vehicleinsurance_model/config.yml
         fi
