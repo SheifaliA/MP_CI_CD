@@ -82,7 +82,7 @@ jobs:
         pip install pyyaml 
     - name: Test with pytest
       run: |
-        rm -rf vehicleinsurance_model/__pycache__
+        # rm -rf vehicleinsurance_model/__pycache__
         pytest
 
   build:
