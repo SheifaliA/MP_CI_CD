@@ -1,0 +1,61 @@
+# Package Overview
+package_name: vehicleinsurance_model
+
+# Data Files
+training_data_file: data.csv
+
+# Variables
+# The variable we are attempting to predict (cnt)
+target: Response
+
+pipeline_name: vehicleinsurance_model
+pipeline_save_file: vehicleinsurance__model_output_v
+
+# Features that will go inside processing pipeline
+features:
+  - id
+  - Gender
+  - Age
+  - Driving_License
+  - Region_Code
+  - Previously_Insured
+  - Vehicle_Age
+  - Vehicle_Damage
+  - Annual_Premium
+  - Policy_Sales_Channel
+  - Vintage 
+
+unused_fields:  
+  - id
+
+# Features names
+id_var: id
+Gender_var: Gender
+Age_var: Age
+Driving_License_var: Driving_License
+Region_Code_var: Region_Code
+Previously_Insured_var: Previously_Insured
+Vehicle_Age_var: Vehicle_Age
+Vehicle_Damage_var: Vehicle_Damage
+Annual_Premium_var: Annual_Premium
+Policy_Sales_Channel_var: Policy_Sales_Channel
+Vintage_var: Vintage
+
+# Mappings for Ordinal categorical features
+
+Gender_mappings: 
+  Female: 0
+  Male: 1
+
+# Set train/test split
+TEST_SIZE: 0.20
+
+# Set the random seed
+RANDOM_STATE: 42
+
+# Alogrithm parameters
+N_ESTIMATORS: 100
+MAX_DEPTH: 10
+MIN_SAMPLES_SPLIT: 7
+MIN_SAMPLES_LEAF: 6
+CRITERION: "entropy"

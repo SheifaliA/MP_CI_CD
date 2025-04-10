@@ -1,0 +1,123 @@
+name: CI Pipeline
+on:
+  push:
+    paths:
+      - 'dataset/raw/**'
+  workflow_dispatch:
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: pip install -r requirements/requirements.txt
+    - name: Identify latest dataset
+      run: |
+        latest_file=$(ls -t vehicleinsurance_model/dataset | head -n 1)
+        echo "LATEST_FILE=$latest_file" >> $GITHUB_ENV
+    - name: Update config.yml
+      run: |
+        sed -i "s|training_data_file: .*|training_data_file: $LATEST_FILE|" vehicleinsurance_model/config.yml
+    - name: Commit updated config.yml
+      run: |
+        git config --global user.name "github-actions"
+        git config --global user.email "actions@github.com"
+        git add vehicleinsurance_model/config.yml
+        git commit -m "Updated dataset path in config.yml"
+        git push origin main
+    - name: Train and save pipeline
+      run: python vehicleinsurance_model/train_pipeline.py
+    - uses: actions/upload-artifact@v4
+      with:
+        name: my-trained-pipeline
+        path: vehicleinsurance_model/trained_models/*.pkl
+        retention-days: 1
+
+  test:
+    needs: train
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    - uses: actions/download-artifact@v4
+      with:
+        name: my-trained-pipeline
+        path: vehicleinsurance_model/trained_models
+    - name: Install dependencies
+      run: pip install -r requirements/test_requirements.txt
+    - name: Test with pytest
+      run: pytest
+
+  build:
+    needs: [train, test]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.10'
+    - uses: actions/download-artifact@v4
+      with:
+        name: my-trained-pipeline
+        path: vehicleinsurance_model/trained_models
+    - name: Install dependencies
+      run: pip install --upgrade build
+    - name: Build package
+      run: python -m build
+    - uses: actions/upload-artifact@v4
+      with:
+        name: my-build-package
+        path: dist/*.whl
+        retention-days: 1
+    - name: Move .whl file
+      run: mv dist/*.whl vehicleinsurance_model_api/
+    - name: List files to verify move
+      run: ls -l vehicleinsurance_model_api/
+    
+
+  push-image:
+    needs: [train, test, build]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Repo Checkout
+      uses: actions/checkout@v2
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: my-build-package
+        path: vehicleinsurance_model_api
+
+    - name: Login to Docker hub
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASS_TOKEN }}
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
+
+    - name: Build the Docker image for Fastapi app
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
+      run: docker build . -f Dockerfile -t $DOCKER_USER/vehicleinsurance-fastapi:latest
+
+    - name: Push the Docker Image
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
+      run: docker push $DOCKER_USER/vehicleinsurance-fastapi
+
+    - name: Logout to Docker hub
+      run: docker logout
+

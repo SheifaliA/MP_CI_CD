@@ -7,8 +7,8 @@ sys.path.append(str(root))
 import pytest
 from sklearn.model_selection import train_test_split
 
-from bikeshare_model.config.core import config
-from bikeshare_model.processing.data_manager import load_dataset
+from vehicleinsurance_model.config.core import config
+from vehicleinsurance_model.processing.data_manager import load_dataset
 
 
 @pytest.fixture
@@ -20,8 +20,8 @@ def sample_input_data():
         
         data[config.model_config_.features],     # predictors
         data[config.model_config_.target],       # target
-        test_size = config.model_config_.test_size,
-        random_state=config.model_config_.random_state,   # set the random seed here for reproducibility
+        test_size = config.model_config_.TEST_SIZE,
+        random_state=config.model_config_.RANDOM_STATE,   # set the random seed here for reproducibility
     )
 
     return X_test, y_test
