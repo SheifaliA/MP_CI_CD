@@ -99,8 +99,6 @@ jobs:
       run: mv dist/*.whl vehicleinsurance_api/
     - name: List files to verify move
       run: ls -l vehicleinsurance_api/
-    
-
   push-image:
     needs: [train, test, build]
     runs-on: ubuntu-latest
