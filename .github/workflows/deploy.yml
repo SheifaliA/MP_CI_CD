@@ -1,5 +1,9 @@
 name: Deploy Model to AWS EC2
 on:
+  workflow_run:
+    workflows: ["CI Pipeline"]  # Ensures this runs after train.yml completes
+    types:
+      - completed
   push:
     branches:
       - main
