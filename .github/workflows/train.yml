@@ -33,14 +33,6 @@ jobs:
             echo "training_data_file:$latest_file" >> vehicleinsurance_model/config.yml
         fi
         grep "training_data_file" vehicleinsurance_model/config.yml
-    # - name: Update config.yml
-    #   run: |
-    #     if grep -q "training_data_file:" vehicleinsurance_model/config.yml; then
-    #         sed -i "s|training_data_file: .*|training_data_file: \"$latest_file\"|" vehicleinsurance_model/config.yml
-    #     else
-    #         echo "training_data_file: \"$latest_file\"" >> vehicleinsurance_model/config.yml
-    #     fi
-    #     grep "training_data_file" vehicleinsurance_model/config.yml
     - name: Commit Updated Config.YML
       run: |
         git config --global user.name "github-actions"
@@ -104,9 +96,9 @@ jobs:
         path: dist/*.whl
         retention-days: 1
     - name: Move .whl file
-      run: mv dist/*.whl vehicleinsurance_model_api/
+      run: mv dist/*.whl vehicleinsurance_api/
     - name: List files to verify move
-      run: ls -l vehicleinsurance_model_api/
+      run: ls -l vehicleinsurance_api/
     
 
   push-image:
