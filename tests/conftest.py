@@ -6,10 +6,15 @@ sys.path.append(str(root))
 
 import pytest
 from sklearn.model_selection import train_test_split
-
+import yaml
 from vehicleinsurance_model.config.core import config
 from vehicleinsurance_model.processing.data_manager import load_dataset
 
+@pytest.fixture
+def config():
+    """Load fresh config before each test"""
+    with open("vehicleinsurance_model/config.yml", "r") as file:
+        return yaml.safe_load(file)
 
 @pytest.fixture
 def sample_input_data():
