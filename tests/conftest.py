@@ -9,16 +9,12 @@ from sklearn.model_selection import train_test_split
 import yaml
 from vehicleinsurance_model.config.core import config
 from vehicleinsurance_model.processing.data_manager import load_dataset
-
-@pytest.fixture
-def config_dataset_path():
-    """Load fresh config before each test"""
-    with open("vehicleinsurance_model/config.yml", "r") as file:
-        return yaml.safe_load(file)
+import importlib
     
 @pytest.fixture
 def sample_input_data():
-    config = config_dataset_path() 
+    # config = config_dataset_path() 
+    importlib.reload(config)
     data = load_dataset(file_name = config.app_config_.training_data_file)
     # divide train and test
     X_train, X_test, y_train, y_test = train_test_split(
