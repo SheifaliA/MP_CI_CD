@@ -2,7 +2,7 @@ name: CI Pipeline
 on:
   push:
     paths:
-      - 'dataset/raw/**'
+      - 'vehicleinsurance_model/dataset/**'
   workflow_dispatch:
 
 jobs:
