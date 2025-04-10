@@ -31,14 +31,13 @@ jobs:
             echo "Inside if - Updating training_data_file"
             grep -v "^training_data_file:" vehicleinsurance_model/config.yml > temp_config.yml && mv temp_config.yml vehicleinsurance_model/config.yml
             echo "training_data_file: $latest_file" >> vehicleinsurance_model/config.yml
-            # sed -i "/^training_data_file:/c\training_data_file: \"$latest_file\"" vehicleinsurance_model/config.yml
             grep "training_data_file" vehicleinsurance_model/config.yml
-            cat vehicleinsurance_model/config.yml
+            # cat vehicleinsurance_model/config.yml
         else
             echo "Adding new training_data_file entry"
             echo "training_data_file: $latest_file" >> vehicleinsurance_model/config.yml
             grep "training_data_file" vehicleinsurance_model/config.yml
-            cat vehicleinsurance_model/config.yml
+            # cat vehicleinsurance_model/config.yml
         fi
     - name: Commit Updated Config.YML
       run: |
@@ -82,7 +81,9 @@ jobs:
         pip install -r requirements/test_requirements.txt
         pip install pyyaml 
     - name: Test with pytest
-      run: pytest
+      run: |
+        rm -rf vehicleinsurance_model/__pycache__
+        pytest
 
   build:
     needs: [train, test]
