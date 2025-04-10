@@ -2,8 +2,7 @@ name: Deploy Model to AWS EC2
 on:
   push:
     tags:
-      - 'latest'  
-
+      - 'latest' 
 jobs:
   deploy:
     runs-on: self-hosted
