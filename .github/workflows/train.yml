@@ -27,6 +27,7 @@ jobs:
     - name: Update config.yml
       run: |
         sed -i "s|training_data_file: .*|training_data_file: $LATEST_FILE|" vehicleinsurance_model/config.yml
+        grep "training_data_file" vehicleinsurance_model/config.yml
     # - name: Commit updated config.yml
       # run: |
       #   git config --global user.name "github-actions"
