@@ -58,4 +58,4 @@ MAX_DEPTH: 10
 MIN_SAMPLES_SPLIT: 7
 MIN_SAMPLES_LEAF: 6
 CRITERION: "entropy"
-training_data_file: dat02.csv
+training_data_file: dat00.csv
