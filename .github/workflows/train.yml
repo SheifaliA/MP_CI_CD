@@ -46,6 +46,7 @@ jobs:
         git add vehicleinsurance_model/config.yml
         if git diff --cached --exit-code; then
             echo "No changes detected in config.yml. Skipping commit."
+            echo "NO_CHANGES=true" >> $GITHUB_ENV
             exit 0
         fi
         git commit -m "Updated config.yml after training"
@@ -54,8 +55,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  
     - name: Train and save pipeline
+      if: env.NO_CHANGES != 'true'
       run: python vehicleinsurance_model/train_pipeline.py
     - uses: actions/upload-artifact@v4
+      if: env.NO_CHANGES != 'true'
       with:
         name: my-trained-pipeline
         path: vehicleinsurance_model/trained_models/*.pkl
@@ -65,6 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+    if: env.NO_CHANGES != 'true'  
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -97,6 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+    if: env.NO_CHANGES != 'true'   
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -124,6 +129,7 @@ jobs:
   push-image:
     needs: [train, test, build]
     runs-on: ubuntu-latest
+    if: env.NO_CHANGES != 'true' 
     steps:
     - name: Repo Checkout
       uses: actions/checkout@v2
