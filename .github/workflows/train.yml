@@ -40,6 +40,7 @@ jobs:
             # cat vehicleinsurance_model/config.yml
         fi
     - name: Commit Updated Config.YML
+      id: commit_changes
       run: |
         git config --global user.name "github-actions"
         git config --global user.email "actions@github.com"
@@ -47,6 +48,7 @@ jobs:
         if git diff --cached --exit-code; then
             echo "No changes detected in config.yml. Skipping commit."
             echo "NO_CHANGES=true" >> $GITHUB_ENV
+            echo "::set-output name=changes_detected::false"
             exit 0
         fi
         git commit -m "Updated config.yml after training"
@@ -55,10 +57,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  
     - name: Train and save pipeline
-      if: env.NO_CHANGES != 'true'
+      if: steps.commit_changes.outputs.changes_detected != 'false
       run: python vehicleinsurance_model/train_pipeline.py
     - uses: actions/upload-artifact@v4
-      if: env.NO_CHANGES != 'true'
+      if: steps.commit_changes.outputs.changes_detected != 'false
       with:
         name: my-trained-pipeline
         path: vehicleinsurance_model/trained_models/*.pkl
@@ -68,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-    if: env.NO_CHANGES != 'true'  
+    if: needs.train.outputs.changes_detected != 'false' 
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -101,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-    if: env.NO_CHANGES != 'true'   
+    if: needs.train.outputs.changes_detected != 'false'
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -129,7 +131,7 @@ jobs:
   push-image:
     needs: [train, test, build]
     runs-on: ubuntu-latest
-    if: env.NO_CHANGES != 'true' 
+    if: needs.train.outputs.changes_detected != 'false'
     steps:
     - name: Repo Checkout
       uses: actions/checkout@v2
