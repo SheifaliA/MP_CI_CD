@@ -1,15 +1,16 @@
 import sys
 from pathlib import Path
-import numpy as np
-from sklearn.metrics import accuracy_score, precision_score
-from vehicleinsurance_model.predict import make_prediction
-
 # Dynamically determine file paths for resolving module imports
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[1]
 
 # Add parent directory to sys.path for module imports
 sys.path.append(str(root))
+import numpy as np
+from sklearn.metrics import accuracy_score, precision_score
+from vehicleinsurance_model.predict import make_prediction
+
+
 
 def test_make_prediction(sample_input_data):
     """Test function to validate the model's prediction process."""

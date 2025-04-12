@@ -1,19 +1,17 @@
 from sklearn.preprocessing import MinMaxScaler
 import sys
 from pathlib import Path
-import numpy as np
-import pandas as pd
-import pytest
-from vehicleinsurance_model.config.core import config
-from vehicleinsurance_model.processing.features import AnnualPremiumMinMaxScalar, Mapper
-
 # Resolve file paths dynamically to support imports
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[1]
 
 # Add parent directory to sys.path to allow module imports
 sys.path.append(str(root))
-
+import numpy as np
+import pandas as pd
+import pytest
+from vehicleinsurance_model.config.core import config
+from vehicleinsurance_model.processing.features import AnnualPremiumMinMaxScalar, Mapper
 
 @pytest.fixture
 def sample_df():

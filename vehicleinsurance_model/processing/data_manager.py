@@ -1,19 +1,17 @@
 import sys
 from pathlib import Path
-import typing as t
-import joblib
-import pandas as pd
-from sklearn.pipeline import Pipeline
-from vehicleinsurance_model import __version__ as _version
-from vehicleinsurance_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR, config
-
 # Dynamically resolve file paths for module imports
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[1]
 
 # Add parent directory to Python's module search path
 sys.path.append(str(root))
-
+import typing as t
+import joblib
+import pandas as pd
+from sklearn.pipeline import Pipeline
+from vehicleinsurance_model import __version__ as _version
+from vehicleinsurance_model.config.core import DATASET_DIR, TRAINED_MODEL_DIR, config
 
 ## Pre-Pipeline Preparation
 def pre_pipeline_preparation(*, data_frame: pd.DataFrame) -> pd.DataFrame:

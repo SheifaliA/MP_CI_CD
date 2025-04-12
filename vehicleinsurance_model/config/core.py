@@ -1,16 +1,15 @@
 import sys
 from pathlib import Path
-from typing import Dict, List
-from pydantic import BaseModel
-from strictyaml import YAML, load
-import vehicleinsurance_model
-
 # Dynamically resolve file paths for module imports
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[1]
 
 # Add parent directory to Python's module search path
 sys.path.append(str(root))
+from typing import Dict, List
+from pydantic import BaseModel
+from strictyaml import YAML, load
+import vehicleinsurance_model
 
 # Define project directories for configuration, datasets, and trained models
 PACKAGE_ROOT = Path(vehicleinsurance_model.__file__).resolve().parent  # Root of package

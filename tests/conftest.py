@@ -1,5 +1,13 @@
 import sys
 from pathlib import Path
+
+# Dynamically determine the paths for resolving module imports
+file = Path(__file__).resolve()
+parent, root = file.parent, file.parents[1]
+
+# Add the parent directory to Python's module path for importing project modules
+sys.path.append(str(root))
+
 import pytest
 from sklearn.model_selection import train_test_split
 import yaml
@@ -12,13 +20,6 @@ import yaml
 from pathlib import Path
 from vehicleinsurance_model.config import core as config_module
 import shutil
-
-# Dynamically determine the paths for resolving module imports
-file = Path(__file__).resolve()
-parent, root = file.parent, file.parents[1]
-
-# Add the parent directory to Python's module path for importing project modules
-sys.path.append(str(root))
 
 # Define the path to the configuration file
 CONFIG_FILE_PATH = Path("vehicleinsurance_model/config.yml")

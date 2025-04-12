@@ -1,5 +1,11 @@
 import sys
 from pathlib import Path
+# Dynamically resolve file paths for module imports
+file = Path(__file__).resolve()
+parent, root = file.parent, file.parents[1]
+
+# Add parent directory to Python's module search path
+sys.path.append(str(root))
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier
 from vehicleinsurance_model.config.core import config
@@ -11,14 +17,6 @@ from vehicleinsurance_model.processing.features import (
     RenameColumnsTransformer,
     DropColumnsTransformer,
 )
-
-# Dynamically resolve file paths for module imports
-file = Path(__file__).resolve()
-parent, root = file.parent, file.parents[1]
-
-# Add parent directory to Python's module search path
-sys.path.append(str(root))
-
 
 # Define the machine learning pipeline
 vehicleinsurance_pipe = Pipeline([

@@ -1,5 +1,11 @@
 import sys
 from pathlib import Path
+# Dynamically resolve file paths for module imports
+file = Path(__file__).resolve()
+parent, root = file.parent, file.parents[1]
+
+# Add parent directory to Python's module search path
+sys.path.append(str(root))
 from typing import List, Optional, Tuple, Union
 from datetime import datetime
 import numpy as np
@@ -7,14 +13,6 @@ import pandas as pd
 from pydantic import BaseModel, ValidationError
 from vehicleinsurance_model.config.core import config
 from vehicleinsurance_model.processing.data_manager import pre_pipeline_preparation
-
-# Dynamically resolve file paths for module imports
-file = Path(__file__).resolve()
-parent, root = file.parent, file.parents[1]
-
-# Add parent directory to Python's module search path
-sys.path.append(str(root))
-
 
 def validate_inputs(*, input_df: pd.DataFrame) -> Tuple[pd.DataFrame, Optional[dict]]:
     """
