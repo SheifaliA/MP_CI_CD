@@ -1,18 +1,20 @@
 import sys
 from pathlib import Path
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, precision_score
-from vehicleinsurance_model.config.core import config
-from vehicleinsurance_model.pipeline import vehicleinsurance_pipe
-from vehicleinsurance_model.processing.data_manager import load_dataset, save_pipeline
-
 # Dynamically resolve file paths for module imports
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[1]
 
 # Add parent directory to Python's module search path
 sys.path.append(str(root))
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, precision_score
+
+from vehicleinsurance_model.config.core import config
+from vehicleinsurance_model.pipeline import vehicleinsurance_pipe
+from vehicleinsurance_model.processing.data_manager import load_dataset, save_pipeline
+
+
 
 
 def run_training() -> None:

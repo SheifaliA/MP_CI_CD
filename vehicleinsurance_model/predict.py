@@ -3,7 +3,6 @@ from pathlib import Path
 from typing import Union
 import pandas as pd
 import numpy as np
-
 from vehicleinsurance_model import __version__ as _version
 from vehicleinsurance_model.config.core import config
 from vehicleinsurance_model.processing.data_manager import load_pipeline, pre_pipeline_preparation
