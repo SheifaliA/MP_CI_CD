@@ -1,31 +1,28 @@
-name: Deploy Model to AWS EC2
+name: Deploy Model to AWS EC2  # Workflow name
 on:
-  workflow_run:
-    workflows: ["CI Pipeline"]  # Ensures this runs after train.yml completes
+  workflow_run:  # Trigger deployment after CI Pipeline
+    workflows: ["CI Pipeline"]  
     types:
-      - completed
+      - completed  # Ensures deployment happens only after CI Pipeline execution
   push:
     branches:
-      - main
+      - main  # Deploy when changes are pushed to the main branch
     tags:
-      - 'latest' 
-  workflow_dispatch:     
+      - 'latest'  # Deploy when a new image is pushed
+  workflow_dispatch:  
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted  # Runs on a self-hosted GitHub Actions runner (e.g., AWS EC2 instance)
     steps:
       - name: Check Self-Hosted Runner Status
-        run: sudo systemctl status actions-runner || true
+        run: sudo systemctl status actions-runner || true  # Display the status of the runner; doesn't fail the workflow if the runner is inactive
       - name: Pull Docker Image
         env: 
-          DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
-        run: sudo docker pull $DOCKER_USER/vehicleinsurance-fastapi:latest
-    
+          DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}  # Use a secret for secure Docker Hub authentication
+        run: sudo docker pull $DOCKER_USER/vehicleinsurance-fastapi:latest  # Pull the latest version of the FastAPI model image from Docker Hub
       - name: Delete Old Docker Container
-        run: sudo docker rm -f vehicleinsurance-fastapi-container || true
-    
+        run: sudo docker rm -f vehicleinsurance-fastapi-container || true  # Remove any existing container with the same name
       - name: Run Docker Container
         env: 
-          DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}
-        run: sudo docker run -it -d -p 8001:8001 --name vehicleinsurance-fastapi-container $DOCKER_USER/vehicleinsurance-fastapi:latest
-
+          DOCKER_USER: ${{ secrets.DOCKER_USER_NAME }}  # Use the same secret for Docker username
+        run: sudo docker run -it -d -p 8001:8001 --name vehicleinsurance-fastapi-container $DOCKER_USER/vehicleinsurance-fastapi:latest  # Run the new container in detached mode, exposing port 8001
