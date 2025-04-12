@@ -57,10 +57,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  
     - name: Train and save pipeline
-      if: steps.commit_changes.outputs.changes_detected != 'false
+      if: steps.commit_changes.outputs.changes_detected != 'false'
       run: python vehicleinsurance_model/train_pipeline.py
     - uses: actions/upload-artifact@v4
-      if: steps.commit_changes.outputs.changes_detected != 'false
+      if: steps.commit_changes.outputs.changes_detected != 'false'
       with:
         name: my-trained-pipeline
         path: vehicleinsurance_model/trained_models/*.pkl
